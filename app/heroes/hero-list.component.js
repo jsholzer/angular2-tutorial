@@ -20,7 +20,17 @@ var HeroListComponent = (function () {
     }
     HeroListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
+        this.sub =
+            this.router.routerState.queryParams.subscribe(function (params) {
+                _this.selectedId = +params['id'];
+                _this.heroService.getHeroes().then(function (heroes) { return _this.heroes = heroes; });
+            });
+    };
+    HeroListComponent.prototype.ngOnDestroy = function () {
+        this.sub.unsubscribe();
+    };
+    HeroListComponent.prototype.isSelected = function (hero) {
+        return hero.id === this.selectedId;
     };
     HeroListComponent.prototype.onSelect = function (hero) {
         this.router.navigate(['/hero', hero.id]);

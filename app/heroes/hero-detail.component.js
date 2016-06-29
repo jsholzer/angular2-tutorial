@@ -38,7 +38,8 @@ var HeroDetailComponent = (function () {
             .catch(function (error) { return console.error(error); });
     };
     HeroDetailComponent.prototype.goBack = function () {
-        this.router.navigate(['/heroes']);
+        var heroId = this.hero ? this.hero.id : null;
+        this.router.navigate(['/heroes'], { queryParams: { id: heroId, foo: 'foo' } });
     };
     HeroDetailComponent = __decorate([
         core_1.Component({

@@ -1,33 +1,31 @@
-import {Component, EventEmitter, Input, OnInit, Output, OnDestroy} from "@angular/core";
-import {ActivatedRoute, Router} from "@angular/router";
+import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import {Hero} from "../hero";
-import {HeroService} from "./hero.service";
+import { Hero } from "../hero";
+import { HeroService } from "./hero.service";
 
 @Component({
     templateUrl: 'app/heroes/hero-detail.component.html',
     styleUrls: ['app/heroes/hero-detail.component.css']
 })
-export class HeroDetailComponent implements OnInit, OnDestroy
-{
-    hero: Hero;
+export class HeroDetailComponent implements OnInit, OnDestroy {
+    hero : Hero;
 
-    private sub: any;
+    private sub : any;
 
-    constructor (private heroService : HeroService,
-                 private route : ActivatedRoute,
-                 private router : Router){}
+    constructor(private heroService : HeroService,
+                private route : ActivatedRoute,
+                private router : Router) {
+    }
 
-    ngOnInit()
-    {
+    ngOnInit() {
         this.sub = this.route.params.subscribe(params => {
             let id = +params['id'];
             this.heroService.getHero(id).then(hero => this.hero = hero);
         });
     }
 
-    ngOnDestroy()
-    {
+    ngOnDestroy() {
         this.sub.unsubscribe();
     }
 
@@ -43,7 +41,9 @@ export class HeroDetailComponent implements OnInit, OnDestroy
 
 
     goBack() {
-        this.router.navigate(['/heroes']);
+        let heroId = this.hero ? this.hero.id : null;
+
+        this.router.navigate(['/heroes'], { queryParams: { id: heroId, foo: 'foo' } });
     }
 
 }
