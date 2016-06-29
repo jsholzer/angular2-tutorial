@@ -37,20 +37,19 @@ export class CrisisDetailComponent implements OnInit, OnDestroy, CanComponentDea
     }
 
     ngOnInit() {
-        this.sub = this.route
-                       .params
-                       .subscribe(params => {
-                           let id = +params['id'];
-                           this.service.getCrisis(id)
-                               .then(crisis => {
-                                   if (crisis) {
-                                       this.editName = crisis.name;
-                                       this.crisis = crisis;
-                                   } else { // id not found
-                                       this.gotoCrises();
-                                   }
-                               });
-                       });
+        this.sub = this.route.params.subscribe(params => {
+            let id = +params['id'];
+
+            this.service.getCrisis(id)
+                .then(crisis => {
+                    if (crisis) {
+                        this.editName = crisis.name;
+                        this.crisis = crisis;
+                    } else { // id not found
+                        this.gotoCrises();
+                    }
+                });
+        });
     }
 
     ngOnDestroy() {
@@ -60,11 +59,6 @@ export class CrisisDetailComponent implements OnInit, OnDestroy, CanComponentDea
     }
 
     cancel() {
-        this.gotoCrises();
-    }
-
-    save() {
-        this.crisis.name = this.editName;
         this.gotoCrises();
     }
 
@@ -82,9 +76,11 @@ export class CrisisDetailComponent implements OnInit, OnDestroy, CanComponentDea
 
     gotoCrises() {
         let crisisId = this.crisis ? this.crisis.id : null;
-        // Pass along the hero id if available
-        // so that the CrisisListComponent can select that hero.
-        // Add a totally useless `foo` parameter for kicks.
-        this.router.navigate(['/crisis-center', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
+        this.router.navigate(['/crisis-center', { id: crisisId }]);
+    }
+
+    save() {
+        this.crisis.name = this.editName;
+        this.gotoCrises();
     }
 }

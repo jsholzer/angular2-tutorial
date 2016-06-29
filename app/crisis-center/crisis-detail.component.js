@@ -23,9 +23,7 @@ var CrisisDetailComponent = (function () {
     }
     CrisisDetailComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.sub = this.route
-            .params
-            .subscribe(function (params) {
+        this.sub = this.route.params.subscribe(function (params) {
             var id = +params['id'];
             _this.service.getCrisis(id)
                 .then(function (crisis) {
@@ -47,10 +45,6 @@ var CrisisDetailComponent = (function () {
     CrisisDetailComponent.prototype.cancel = function () {
         this.gotoCrises();
     };
-    CrisisDetailComponent.prototype.save = function () {
-        this.crisis.name = this.editName;
-        this.gotoCrises();
-    };
     CrisisDetailComponent.prototype.canDeactivate = function () {
         // Allow synchronous navigation (`true`) if no crisis or the crisis is unchanged
         if (!this.crisis || this.crisis.name === this.editName) {
@@ -64,10 +58,11 @@ var CrisisDetailComponent = (function () {
     };
     CrisisDetailComponent.prototype.gotoCrises = function () {
         var crisisId = this.crisis ? this.crisis.id : null;
-        // Pass along the hero id if available
-        // so that the CrisisListComponent can select that hero.
-        // Add a totally useless `foo` parameter for kicks.
-        this.router.navigate(['/crisis-center', { id: crisisId, foo: 'foo' }], { relativeTo: this.route });
+        this.router.navigate(['/crisis-center', { id: crisisId }]);
+    };
+    CrisisDetailComponent.prototype.save = function () {
+        this.crisis.name = this.editName;
+        this.gotoCrises();
     };
     CrisisDetailComponent = __decorate([
         core_1.Component({
