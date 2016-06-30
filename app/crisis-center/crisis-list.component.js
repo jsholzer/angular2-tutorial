@@ -22,7 +22,7 @@ var CrisisListComponent = (function () {
     };
     CrisisListComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this.sub = this.route.params.subscribe(function (params) {
+        this.sub = this.router.routerState.parent(this.route).params.subscribe(function (params) {
             _this.selectedId = +params['id'];
             _this.service.getCrises()
                 .then(function (crises) { return _this.crises = crises; });

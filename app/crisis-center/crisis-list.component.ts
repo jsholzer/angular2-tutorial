@@ -29,7 +29,7 @@ export class CrisisListComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.sub = this.route.params.subscribe(params => {
+        this.sub = this.router.routerState.parent(this.route).params.subscribe(params => {
             this.selectedId = +params['id'];
             this.service.getCrises()
                 .then(crises => this.crises = crises);
